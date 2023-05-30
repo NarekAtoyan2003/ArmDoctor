@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -18,17 +17,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private PasswordEncoder MD5Encoder;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-     http
-             .cors().disable()
-             .csrf().disable()
-             .authorizeRequests()
-             .antMatchers("/")
-             .permitAll()
-             .anyRequest()
-             .authenticated()
-             .and()
-             .httpBasic();
-}
+        http
+                .cors().disable()
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic();
+    }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -39,6 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers(HttpMethod.POST,"/user/create-user");
+                .antMatchers(HttpMethod.POST,"user/creat_user");
     }
 }

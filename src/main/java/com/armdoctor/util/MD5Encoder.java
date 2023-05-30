@@ -6,7 +6,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class MD5Encoder implements PasswordEncoder {
-
     @Override
     public String encode(CharSequence charSequence) {
         try {

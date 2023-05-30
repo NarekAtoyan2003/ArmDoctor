@@ -1,4 +1,4 @@
-package com.armdoctor.controler;
+package com.armdoctor.controller;
 
 import com.armdoctor.dto.requestdto.UserDTO;
 import com.armdoctor.exceptions.APIException;
@@ -12,16 +12,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
     @Autowired
     private UserServiceImpl userService;
-
-    @PostMapping("/creat-user")
-    public UserEntity createUser (@RequestBody UserDTO userDTO) throws APIException {
-        UserEntity user = userService.creatUser(userDTO);
+    @PostMapping("/create-user")
+    public UserEntity createUser(@RequestBody UserDTO userDTO) throws APIException {
+        UserEntity user = userService.createUser(userDTO);
         return user;
+
     }
     @GetMapping("/get-by-username")
     public List<UserEntity> getByUsername(@RequestParam String email) throws APIException {
         return userService.getByUsername(email);
     }
+    
 }

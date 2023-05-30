@@ -14,7 +14,6 @@ public class BeanConfig {
     public DataSource getDataSource(){
         return new DataSource();
     }
-
     @Bean
-    PasswordEncoder getPasswordEncoder(){return new MD5Encoder();}
+    public PasswordEncoder getPasswordEncoder(){return new MD5Encoder();}
 }

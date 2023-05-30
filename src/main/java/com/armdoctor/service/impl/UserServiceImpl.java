@@ -1,7 +1,7 @@
 package com.armdoctor.service.impl;
 
 import com.armdoctor.dto.requestdto.UserDTO;
-import com.armdoctor.enams.Status;
+import com.armdoctor.enums.Status;
 import com.armdoctor.exceptions.APIException;
 import com.armdoctor.exceptions.UserValidationException;
 import com.armdoctor.model.UserEntity;
@@ -12,11 +12,16 @@ import com.armdoctor.util.TokenGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
+
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -24,13 +29,9 @@ public class UserServiceImpl implements UserService {
     private ArmDoctorMailSender mailSender;
 
     @Override
-    public UserEntity creatUser(UserDTO dto) throws APIException {
-        try {
-            validateFields(dto);
-            validatePassword(dto);
-        } catch (UserValidationException e) {
-            throw new RuntimeException(e);
-        }
+    public UserEntity createUser(UserDTO dto) throws APIException {
+        validateFields(dto);
+        validatePassword(dto);
 
         String verifyCode = TokenGenerate.generateVerifyCode();
 
@@ -50,33 +51,38 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             throw new APIException("Problem during saving the user");
         }
+
         mailSender.sendEmail(dto.getEmail(), "Your verification code", "Your verification code is: " + verifyCode);
         return userEntity;
     }
 
     @Override
     public List<UserEntity> getByUsername(String email) throws APIException {
-        List<UserEntity> entityList = null;
+        List<UserEntity > entityList = null;
         try {
-            entityList = userRepository.getByEMail(email);
+            entityList = userRepository.getByEmail(email);
         } catch (Exception e) {
             throw new APIException("problem during getting of user");
         }
         return entityList;
     }
-    private void validateFields(UserDTO userDTO) throws UserValidationException{
-        if (userDTO.getName() == null || userDTO.getName().isBlank()){
-         throw new UserValidationException("User's name cannot be null or empty");
+
+    private void validateFields(UserDTO userDTO) {
+        if (userDTO.getName() == null || userDTO.getName().isBlank()) {
+            throw new UserValidationException("User's name cannot be null or empty");
         }
-        if (userDTO.getSurname() == null || userDTO.getSurname().isBlank()){
+
+        if (userDTO.getSurname() == null || userDTO.getSurname().isBlank()) {
             throw new UserValidationException("User's surname cannot be null or empty");
         }
+
         if (userDTO.getYear() == null || userDTO.getYear() < 1910 || userDTO.getYear() > 2020) {
             throw new UserValidationException("User's age must be between 1910 - 2020");
         }
     }
 
-    private void  validatePassword(UserDTO userDTO)throws UserValidationException {
+
+    private void  validatePassword(UserDTO userDTO) {
         String password = userDTO.getPassword();
         if (password == null || password.isBlank()) {
             throw new UserValidationException("Password cannot be null or empty");

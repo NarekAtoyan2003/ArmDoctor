@@ -1,6 +1,6 @@
 package com.armdoctor.dto.requestdto;
 
-import com.armdoctor.enams.Role;
+import com.armdoctor.enums.Role;
 import lombok.Data;
 
 import javax.persistence.EnumType;
@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 
 @Data
 public class UserDTO {
+
     private String name;
     private String surname;
     private Integer year;

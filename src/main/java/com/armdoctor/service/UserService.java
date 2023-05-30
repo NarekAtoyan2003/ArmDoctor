@@ -7,6 +7,7 @@ import com.armdoctor.model.UserEntity;
 import java.util.List;
 
 public interface UserService {
-    UserEntity creatUser(UserDTO dto) throws APIException;
+
+    UserEntity createUser(UserDTO dto) throws APIException;
     List<UserEntity> getByUsername(String email) throws APIException;
 }

@@ -1,11 +1,13 @@
 package com.armdoctor.repository;
 
 import com.armdoctor.model.UserEntity;
+import org.springframework.data.domain.Example;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface UserRepository {
-    List<UserEntity> getByEMail(String s);
-
-    void save(UserEntity userEntity);
+@Repository
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+    List<UserEntity> getByEmail(String email);
 }

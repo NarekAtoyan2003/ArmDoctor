@@ -10,4 +10,5 @@ public interface UserService {
 
     UserEntity createUser(UserDTO dto) throws APIException;
     List<UserEntity> getByUsername(String email) throws APIException;
+    UserEntity verifyUser(String email,String verifyCode) throws APIException;
 }

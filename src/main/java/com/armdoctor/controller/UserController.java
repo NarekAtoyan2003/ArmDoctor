@@ -25,5 +25,9 @@ public class UserController {
     public List<UserEntity> getByUsername(@RequestParam String email) throws APIException {
         return userService.getByUsername(email);
     }
-    
+    @PatchMapping("/verify")
+    public UserEntity verifyUser (@RequestParam String email,
+                                  @RequestParam String verifyCode) throws APIException {
+        return userService.verifyUser(email,verifyCode);
+    }
 }

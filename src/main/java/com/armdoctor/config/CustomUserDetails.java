@@ -1,8 +1,8 @@
 package com.armdoctor.config;
 
-import com.armdoctor.exceptions.UserNotFoundException;
-import com.armdoctor.model.UserEntity;
-import com.armdoctor.repository.UserRepository;
+import com.armdoctor.exceptions.DoctorNotFoundException;
+import com.armdoctor.model.DoctorEntity;
+import com.armdoctor.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,18 +17,20 @@ import java.util.List;
 
 @Configuration
 public class CustomUserDetails implements UserDetailsService {
+
     @Autowired
-    private UserRepository userRepository;
+    private DoctorRepository doctorRepository;
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        UserEntity userEntity = null;
+        DoctorEntity doctorEntity = null;
         try {
-            List<UserEntity> userEntities = userRepository.getByEmail(s);
-            userEntity = userEntities.get(0);
+            List<DoctorEntity> doctorEntityList = doctorRepository.getByEmail(s);
+            doctorEntity = doctorEntityList.get(0);
         } catch (Exception e) {
-            throw new UserNotFoundException("wrong email "+ s);
+            throw new DoctorNotFoundException("Wrong email " + s);
         }
         Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        return new User(userEntity.getEmail(),userEntity.getPassword(), grantedAuthorities);
+        return new User(doctorEntity.getEmail(), doctorEntity.getPassword(), grantedAuthorities);
     }
 }

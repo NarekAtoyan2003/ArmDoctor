@@ -9,11 +9,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BeanConfig {
+
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.tomcat")
     public DataSource getDataSource(){
         return new DataSource();
     }
+
     @Bean
-    public PasswordEncoder getPasswordEncoder(){return new MD5Encoder();}
+    public PasswordEncoder getPasswordEncoder(){
+        return new MD5Encoder();
+    }
+
 }

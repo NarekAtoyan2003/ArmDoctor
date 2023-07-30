@@ -3,10 +3,9 @@ package com.armdoctor.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public class UserValidationException extends RuntimeException{
-
-    public UserValidationException(String message){
+@ResponseStatus(HttpStatus.CONFLICT)
+public class ResourceAlreadyExistsException extends RuntimeException{
+    public ResourceAlreadyExistsException(String message){
         super(message);
     }
 }

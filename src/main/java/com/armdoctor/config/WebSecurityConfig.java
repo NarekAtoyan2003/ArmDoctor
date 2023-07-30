@@ -1,6 +1,5 @@
 package com.armdoctor.config;
 
-import com.armdoctor.util.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,34 +11,42 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
     @Autowired
     private CustomUserDetails customUserDetails;
+
     @Autowired
-    private PasswordEncoder MD5Encoder;
+    private PasswordEncoder passwordEncoder;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-     http
-             .cors().disable()
-             .csrf().disable()
-             .authorizeRequests()
-             .antMatchers("/")
-             .permitAll()
-             .anyRequest()
-             .authenticated()
-             .and()
-             .httpBasic();
-}
+        http
+                .cors().disable()
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(customUserDetails)
-                .passwordEncoder(MD5Encoder);
+                .passwordEncoder(passwordEncoder);
     }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
+
         web
                 .ignoring()
-                .antMatchers(HttpMethod.POST,"/user/create-user")
-                .antMatchers(HttpMethod.PATCH, "/user/verify");
+                .antMatchers(HttpMethod.POST, "/user/create-user", "/hospital/add-hospital")
+                .antMatchers(HttpMethod.PATCH, "/user/verify", "/user/send-reset-token", "/user/forgot-password")
+                .antMatchers(HttpMethod.GET, "/user/verify-reset-token");
     }
 }
